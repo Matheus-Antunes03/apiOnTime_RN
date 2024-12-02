@@ -14,6 +14,8 @@ async function getAllUsuario() {
 async function createUsuario(nome, dataNasc, telefone, cpf) {
     const connection = await mysql.createConnection(databaseConfig);
 
+    console.log(nome, dataNasc, telefone, cpf);
+
     const insertUsuario = "INSERT INTO usuario(nome, dataNasc, telefone, cpf) VALUES(?, ?, ?, ?)";
 
     await connection.query(insertUsuario, [nome, dataNasc, telefone, cpf]);
@@ -49,10 +51,21 @@ async function getUsuarioById(id) {
     return usuario;
 }
 
+async function loginUsuario(cpf) {
+    const connection = await mysql.createConnection(databaseConfig);
+
+    const [usuario] = await connection.query("SELECT * FROM usuario WHERE cpf = ?", [cpf]);
+
+    await connection.end();
+
+    return usuario;
+}
+
 module.exports = {
     getAllUsuario,
     createUsuario,
     updateUsuario,
     deleteUsuario,
     getUsuarioById,
+    loginUsuario
 }

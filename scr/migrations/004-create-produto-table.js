@@ -2,10 +2,10 @@ const mysql = require("mysql2/promise");
 const databaseConfig = require("../config/database.js");
 
 async function createProdutoTable() {
-    try{
+    try {
         const connection = await mysql.createConnection(databaseConfig);
 
-        await connection.query(`USE ${databaseConfig.database}`)
+        await connection.query(`USE ${databaseConfig.database}`);
 
         await connection.query(`CREATE TABLE IF NOT EXISTS produto (
             id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -13,13 +13,15 @@ async function createProdutoTable() {
             marca VARCHAR(50) NOT NULL,
             preco DOUBLE NOT NULL,
             dataValidade VARCHAR(10) NOT NULL,
-            peso VARCHAR(10) NOT NULL
+            peso VARCHAR(10) NOT NULL,
+            idEstabelecimento INT NOT NULL,
+            FOREIGN KEY (idEstabelecimento) REFERENCES estabelecimento(id)
         )`);
 
         await connection.end();
 
         console.log("Table produto created!");
-    }catch(error) {
+    } catch (error) {
         console.log(`Error creating table produto: ${error}`);
     }
 }

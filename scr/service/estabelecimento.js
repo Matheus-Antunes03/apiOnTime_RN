@@ -49,10 +49,21 @@ async function getEstabelecimentoById(id) {
     return estabelecimento;
 }
 
+async function loginEstabelecimento(cnpj) {
+    const connection = await mysql.createConnection(databaseConfig);
+
+    const [estabelecimento] = await connection.query("SELECT * FROM estabelecimento WHERE cnpj = ?", [cnpj]);
+
+    await connection.end();
+
+    return estabelecimento;
+}
+
 module.exports = {
     getAllEstabelecimento,
     createEstabelecimento,
     updateEstabelecimento,
     deleteEstabelecimento,
     getEstabelecimentoById,
-}
+    loginEstabelecimento,
+};

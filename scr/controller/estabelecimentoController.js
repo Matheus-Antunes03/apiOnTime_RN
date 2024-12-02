@@ -5,7 +5,7 @@ async function getAllEstabelecimento(req, res) {
         const rows = await estabelecimentoService.getAllEstabelecimento();
 
         res.status(200).json(rows);
-    }catch(error) {
+    } catch (error) {
         res.status(500).send({
             message: "Error getting estabelecimentos",
             body: error.message,
@@ -13,68 +13,84 @@ async function getAllEstabelecimento(req, res) {
     }
 }
 
-async function createEstabelecimento(req, res){
-const { nome, endereco, inscricaoMunicipal, cnpj } = req.body;
+async function createEstabelecimento(req, res) {
+    const { nome, endereco, inscricaoMunicipal, cnpj } = req.body;
 
-try{
-    await estabelecimentoService.createEstabelecimento(nome, endereco, inscricaoMunicipal, cnpj);
+    try {
+        await estabelecimentoService.createEstabelecimento(nome, endereco, inscricaoMunicipal, cnpj);
 
-    res.status(201).json({
-        message: "Success!"
-    });
-}catch(error) {
-    res.status(500).send({
-        message: "Error adding estabelecimento!",
-        error: error.message,
-    });
-}
+        res.status(201).json({
+            message: "Success!"
+        });
+    } catch (error) {
+        res.status(500).send({
+            message: "Error adding estabelecimento!",
+            error: error.message,
+        });
+    }
 }
 
 async function updateEstabelecimento(req, res) {
-try{
-    const { id } = req.params;
-    const { nome, endereco, inscricaoMunicipal, cnpj } = req.body;
+    try {
+        const { id } = req.params;
+        const { nome, endereco, inscricaoMunicipal, cnpj } = req.body;
 
-    await estabelecimentoService.updateEstabelecimento(id, nome, endereco, inscricaoMunicipal, cnpj);
+        await estabelecimentoService.updateEstabelecimento(id, nome, endereco, inscricaoMunicipal, cnpj);
 
-    res.status(200).send("Success");
-}catch(error) {
-    res.status(500).send({
-        message: ("Error updating estabelecimento!"),
-        body: error.message,
-    });
-}
+        res.status(200).send("Success");
+    } catch (error) {
+        res.status(500).send({
+            message: ("Error updating estabelecimento!"),
+            body: error.message,
+        });
+    }
 }
 
 async function deleteEstabelecimento(req, res) {
 
-try {
-const { id } = req.params;
+    try {
+        const { id } = req.params;
 
-await estabelecimentoService.deleteEstabelecimento(id);
+        await estabelecimentoService.deleteEstabelecimento(id);
 
-res.status(200).send({message: "Deleted estabelecimento!"});
-} catch (error) {
-    res.status(500).send({
-        message: "Error deleting estabelecimento!",
-        error: error.message,
-    })
-}
+        res.status(200).send({ message: "Deleted estabelecimento!" });
+    } catch (error) {
+        res.status(500).send({
+            message: "Error deleting estabelecimento!",
+            error: error.message,
+        });
+    }
 }
 
 async function getEstabelecimentoById(req, res) {
-try {
-    const { id } = req.params;
+    try {
+        const { id } = req.params;
 
-    const user = await estabelecimentoService.getEstabelecimentoById(id);
+        const user = await estabelecimentoService.getEstabelecimentoById(id);
 
-    res.status(200).json(user);
-}catch(error) {
-    res.status(500).send({
-        message: "Error getting estabelecimento by ID.",
-        error: error.message,
-    });
+        res.status(200).json(user);
+    } catch (error) {
+        res.status(500).send({
+            message: "Error getting estabelecimento by ID.",
+            error: error.message,
+        });
+    }
 }
+
+async function loginEstabelecimento(req, res) {
+    try {
+        const { cnpj } = req.body;
+
+        const estabelecimento = await estabelecimentoService.loginEstabelecimento(cnpj);
+
+        res.status(200).json(estabelecimento);
+    } catch (error) {
+        res.status(500).send({
+            message: "Error logging in estabelecimento.",
+            error: error.message,
+        });
+    }
+
 }
 
 module.exports = {
@@ -83,4 +99,5 @@ module.exports = {
     updateEstabelecimento,
     deleteEstabelecimento,
     getEstabelecimentoById,
-}
+    loginEstabelecimento
+};

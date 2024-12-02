@@ -6,7 +6,7 @@ const produtoRouter = require("./router/produtoRouter.js");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 
-const PORT = 3000;
+const PORT = 3333;
 
 const app = express();
 

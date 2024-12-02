@@ -17,6 +17,7 @@ async function getAllUsuario(req, res) {
 
 async function createUsuario(req, res){
     const { nome, dataNasc, telefone, cpf } = req.body;
+    console.log(nome, dataNasc, telefone, cpf);
 
     try{
         await usuarioService.createUsuario(nome, dataNasc, telefone, cpf);
@@ -79,10 +80,26 @@ async function getUsuarioById(req, res) {
     }
 }
 
+async function loginUsuario(req, res) {
+    const { cpf } = req.body;
+
+    try {
+        const usuario = await usuarioService.loginUsuario(cpf);
+
+        res.status(200).json(usuario);
+    }catch(error) {
+        res.status(500).send({
+            message: "Error getting usuario by CPF.",
+            error: error.message,
+        });
+    }
+}
+
 module.exports = {
     getAllUsuario,
     createUsuario,
     updateUsuario,
     deleteUsuario,
     getUsuarioById,
+    loginUsuario,
 };

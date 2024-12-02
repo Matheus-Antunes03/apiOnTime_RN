@@ -11,12 +11,12 @@ async function getAllProduto() {
     return rows;
 }
 
-async function createProduto(nome, marca, preco, dataValidade, peso) {
+async function createProduto(nome, marca, preco, dataValidade, peso, idEstabelecimento) {
     const connection = await mysql.createConnection(databaseConfig);
 
-    const insertProduto = "INSERT INTO produto(nome, marca, preco, dataValidade, peso) VALUES(?, ?, ?, ?, ?)";
+    const insertProduto = "INSERT INTO produto(nome, marca, preco, dataValidade, peso, idEstabelecimento) VALUES(?, ?, ?, ?, ?, ?)";
 
-    await connection.query(insertProduto, [nome, marca, preco, dataValidade, peso]);
+    await connection.query(insertProduto, [nome, marca, preco, dataValidade, peso, idEstabelecimento]);
 
     await connection.end();
 }
@@ -42,7 +42,7 @@ async function deleteProduto(id) {
 async function getProdutoById(id) {
     const connection = await mysql.createConnection(databaseConfig);
 
-    const [produto] = await connection.query("SELECT * FROM produto WHERE id = ?", [id]);
+    const [produto] = await connection.query("SELECT * FROM produto WHERE idEstabelecimento = ?", [id]);
 
     await connection.end();
 
